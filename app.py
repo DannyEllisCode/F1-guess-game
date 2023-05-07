@@ -27,8 +27,7 @@ df = pd.read_html(str(f1_driver_table))
 # Converts list to Dataframe
 df = pd.DataFrame(df[0])
 
-# Clean up data for use in game format:
-
+# Clean up data for use in game format.
 # Remove unwanted columns "Race entries"
 df = df.drop(["Race entries"], axis=1)
 
@@ -53,13 +52,41 @@ df = df[df.Points != 0].reset_index(drop=True)
 
 # Rename df
 f1_driver_list = df
-print(f1_driver_list[30:31])
+#print(f1_driver_list[8:9])
 #print(f1_driver_list)
 
 # Current driver list       ## CREATE A LIST HERE SO THAT CURRENT DRIVERS DATA CAN BE USED IN EXTRA WAYS
 
+def total_seasons_int(seasons_range):
+    # Creates a total years variable to add up seasons raced
+    total_years = 0
+
+    # Split string by ", " to create list of years and year ranges
+    seasons_list = seasons_range.split(", ")
+
+    # Iterate over seasons_list to add up seasons
+    for i in seasons_list:
+        # Splits any years with a "–" into new list to be able to subtract years to get total
+        year_range = i.split("–")
+
+        # If length of list is 2 then it is a range. Subtracts higher number
+        # from lower and adds one to get total years raced in that range. (Could use map function?)
+        if len(year_range) == 2:
+            i_years = int(year_range[1]) - int(year_range[0]) + 1
+            total_years += i_years
+
+        # If the above does not happen then it is just a single year, not a range (i.e. "1998")
+        # so just adds 1 to total_years
+        else:
+            total_years += 1
+
+    return total_years
+
+
+
 # Chooses a random driver from the database
-secret_driver = f1_driver_list.sample()
+# secret_driver = f1_driver_list.sample()
+secret_driver = f1_driver_list[9:10]
 
 # Defines characteristics of secret_driver
 secret_driver_name = secret_driver.iloc[0, 0]
@@ -86,22 +113,24 @@ secret_driver_characteristics = [
     secret_driver_fast_laps,
     secret_driver_points]
 
-print(secret_driver_name)
-print(secret_driver_nationality)
+#print(secret_driver_name)
+#print(secret_driver_nationality)
 print(secret_driver_seasons)
-print(secret_driver_wdcs)
-print(secret_driver_starts)
-print(secret_driver_poles)
-print(secret_driver_wins)
-print(secret_driver_podiums)
-print(secret_driver_fast_laps)
-if float(secret_driver_points) == int(secret_driver_points):
-    print(int(secret_driver_points))
-else:
-    print(secret_driver_points)
+#print(secret_driver_wdcs)
+#print(secret_driver_starts)
+#print(secret_driver_poles)
+#print(secret_driver_wins)
+#print(secret_driver_podiums)
+#print(secret_driver_fast_laps)
+#if float(secret_driver_points) == int(secret_driver_points):
+    #print(int(secret_driver_points))
+#else:
+    #print(secret_driver_points)
 
 # Defines the number of guesses the user can take
 max_guesses = 8
+
+
 
 # Defines a function to check the user's guess against the secret driver variable
 def check_guess(guess, secret_driver):
@@ -118,6 +147,8 @@ def game_state(guesses_list, max_guesses):
     print("Guesses remaining: " + str(max_guesses - len(guesses_list)))
     print(guesses_list)
 
+# Defines a function to work out and add total seasons to current guess and secret driver
+
 # Defines a function to compare characteristics of current guess and answer
 def check_characteristics(secret_driver_list, current_guess_list):
 
@@ -127,7 +158,13 @@ def check_characteristics(secret_driver_list, current_guess_list):
     else:
         print("Wrong nationality!")
 
-    #if int(secret_driver_list[2]) == ## FIGURE OUT ADDING INT OF TOTAL SEASONS TO THIS FOR COMPARISON
+    # Compares amount of seasons competed in
+    if total_seasons_int(secret_driver_seasons) > total_seasons_int(current_guess_seasons):
+        print("More seasons competed in!")
+    elif total_seasons_int(secret_driver_seasons) < total_seasons_int(current_guess_seasons):
+        print("Less seasons competed in!")
+    else:
+        print("Same amount of seasons competed in!")
 
     # Compares championships won
     if int(secret_driver_list[3][0]) > int(current_guess_list[3][0]):
