@@ -44,6 +44,16 @@ This will give me a good insight into an entire app's lifecycle (albeit only a s
 
 ---
 
+## Challenges, Learnings, Outcomes, etc.
+
+- Learning a lot about cleaning up and using data. Unsure if data is being stored correctly though - maybe it should be in a local spreadsheet rather than scraped but this is suitable for this project. Surprisingly I have enjoyed the data collection and cleaning. Maybe a future role in Data Analysis? Must learn better practices though as probably not very efficient code. Might look into some Data projects to learn.
+- RegEx is hard! Very useful but it took far too long to figure out the exact syntax for what I wanted. Hopefully quicker in the future.
+- Learning a lot about functions! Still get confused about how to properly call them sometimes but think I am getting there. Wondering if functions should be stored in a seperate file?
+- Still unsure about the necessity of the response.status_code line - is this a legal thing to ensure correct use of data or just about HTML response codes? Research further.
+- Still learning Github. Yet to try any command line git stuff. Will stick to manual uploads for now but created my first "issue". When I add this I will try to submit a pull request and see how it works with resolving the issue.
+
+---
+
 ## Licensing
 
 Daniel Ellis
