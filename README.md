@@ -29,7 +29,7 @@ Additional features that could be added:
     • Allow for a predictive drop down list of drivers for the player to use to guess from (this would prevent spelling errors and aid the player to keep guessing)
     • When hosted online, show clues through colour cues (i.e. red is incorrect, yellow is partly correct, green is correct).
     • Add a "daily" feature to encourage players to return each day
-    • Add the ability to filter the dataset so players are more likely to guess correctly based on their knowledge of F1 (currently all drivers that scored 0 points         are filtered out)
+    • Add the ability to filter the dataset so players are more likely to guess correctly based on their knowledge of F1 (currently all drivers that scored 0 points are filtered out)
     • Ensure compatibility online with mobile users
 
 ---
@@ -51,6 +51,7 @@ This will give me a good insight into an entire app's lifecycle (albeit only a s
 - Learning a lot about functions! Still get confused about how to properly call them sometimes but think I am getting there. Wondering if functions should be stored in a seperate file?
 - Still unsure about the necessity of the response.status_code line - is this a legal thing to ensure correct use of data or just about HTML response codes? Research further.
 - Still learning Github. Yet to try any command line git stuff. Will stick to manual uploads for now but created my first "issue". When I add this I will try to submit a pull request and see how it works with resolving the issue.
+- As of the commit on 13/05/23 I believe that the code for the app itself is complete - it works as intended when running the .py file in an IDE. I am now looking into how to host everything online using the Django framework. So for now it is back to tutorials. 
 
 ---
 
