@@ -37,7 +37,13 @@ df = df[:-1]
 # Rename points column
 df = df.rename(columns={"Points[a]": "Points"})
 
-# Remove characters on the end of driver's names from Wiki table
+# Creates a list of current drivers. This makes use of the Wiki table using
+# "*" and "~" to signify if a driver is currently racing.
+drivers_df = df[df["Driver name"].str.endswith(("*", "~"))]
+current_drivers = drivers_df["Driver name"].tolist()
+current_drivers = [x[:-1] for x in current_drivers]
+
+# Uses regex to remove characters on the end of driver's names from the Driver name column in the main df
 df["Driver name"] = df["Driver name"].str.replace(r"[*^~]+$", "", regex=True)
 
 # Removes characters on multiple columns and in order to return only digits
@@ -45,17 +51,16 @@ df["Driver name"] = df["Driver name"].str.replace(r"[*^~]+$", "", regex=True)
 columns = ["Race starts", "Pole positions", "Race wins", "Podiums", "Fastest laps", "Points"]
 df[columns] = df[columns].replace(r"[ [(].*", "", regex=True)
 
-# Converts the Points column to numeric value, allowing comparison to 0 to drop
-# all racers with 0 points and resets row index
+# Converts the Points column to numeric value, allowing comparison to 0
 df["Points"] = pd.to_numeric(df["Points"])
-df = df[df.Points != 0].reset_index(drop=True)
+
+# Drops rows where points == 0 AND driver is not in "current drivers" list and resets the index of the dataframe.
+# Note to self: the "~" operator is a logical NOT operator when used with a Boolean.
+df = df[~((df["Points"] == 0) & (~df["Driver name"].isin(current_drivers)))].reset_index(drop=True)
 
 # Rename df
 f1_driver_list = df
-#print(f1_driver_list[8:9])
-#print(f1_driver_list)
 
-# Current driver list       ## CREATE A LIST HERE SO THAT CURRENT DRIVERS DATA CAN BE USED IN EXTRA WAYS
 
 def total_seasons_int(seasons_range):
     # Creates a total years variable to add up seasons raced
@@ -83,10 +88,8 @@ def total_seasons_int(seasons_range):
     return total_years
 
 
-
 # Chooses a random driver from the database
-# secret_driver = f1_driver_list.sample()
-secret_driver = f1_driver_list[9:10]
+secret_driver = f1_driver_list.sample()
 
 # Defines characteristics of secret_driver
 secret_driver_name = secret_driver.iloc[0, 0]
@@ -115,7 +118,7 @@ secret_driver_characteristics = [
 
 #print(secret_driver_name)
 #print(secret_driver_nationality)
-print(secret_driver_seasons)
+#print(secret_driver_seasons)
 #print(secret_driver_wdcs)
 #print(secret_driver_starts)
 #print(secret_driver_poles)
@@ -131,23 +134,13 @@ print(secret_driver_seasons)
 max_guesses = 8
 
 
-
-# Defines a function to check the user's guess against the secret driver variable
-def check_guess(guess, secret_driver):
-
-    if guess == secret_driver:
-        return True
-    else:
-        return False
-
 # Defines function to return the game state
-def game_state(guesses_list, max_guesses):
+def game_state(guesses_list, max_guesses_amount):
 
     # Displays how many guesses are left and currently guessed drivers
-    print("Guesses remaining: " + str(max_guesses - len(guesses_list)))
+    print("Guesses remaining: " + str(max_guesses_amount - len(guesses_list)))
     print(guesses_list)
 
-# Defines a function to work out and add total seasons to current guess and secret driver
 
 # Defines a function to compare characteristics of current guess and answer
 def check_characteristics(secret_driver_list, current_guess_list):
